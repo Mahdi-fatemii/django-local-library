@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 
 
-class BookInline(admin.TabularInline):
+class BookInline(admin.StackedInline):
     model = Book
 
 
