@@ -37,7 +37,14 @@
                     <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
                 {% endif %}
                 {% if user.is_staff %}
-                <li><a href="{% url 'all-borrowed' %}">All Borrowed</a></li>
+                    <hr>
+                    <ul class="sidebar-nav">
+                        <li>Staff</li>
+                        <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
+                        {% if perms.catalog.add_author %}
+                            <li><a href="{% url 'author-create' %}">Create author</a></li>
+                        {% endif %}
+                    </ul>
                 {% endif %}
             {% endblock %}
         </div>
