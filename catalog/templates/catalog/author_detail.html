@@ -1,29 +1,29 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h2>Author ID: {{ author.id }}</h2>
-  <p></p>
-  <p><strong>First Name:</strong> {{ author.first_name }}</p>
-  <p><strong>Last Name:</strong> {{ author.last_name }}</p>
-  <p><strong>Date Of Birth:</strong> {{ author.date_of_birth }}</p>
-  <p><strong>Date Of Death:</strong> {{ author.date_of_death }}</p>
+    <h2>Author ID: {{ author.id }}</h2>
+    <p></p>
+    <p><strong>First Name:</strong> {{ author.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ author.last_name }}</p>
+    <p><strong>Date Of Birth:</strong> {{ author.date_of_birth }}</p>
+    <p><strong>Date Of Death:</strong> {{ author.date_of_death }}</p>
 
 
 {% endblock %}
 
 {% block sidebar %}
-  {{ block.super }}
+    {{ block.super }}
 
-  {% if perms.catalog.change_author or perms.catalog.delete_author %}
-  <hr>
-  <ul class="sidebar-nav">
-    {% if perms.catalog.change_author %}
-      <li><a href="{% url 'author-update' author.id %}">Update author</a></li>
+    {% if perms.catalog.change_author or perms.catalog.delete_author %}
+        <hr>
+        <ul class="sidebar-nav">
+            {% if perms.catalog.change_author %}
+                <li><a href="{% url 'author-update' author.id %}">Update author</a></li>
+            {% endif %}
+            {% if not author.book_set.all and perms.catalog.delete_author %}
+                <li><a href="{% url 'author-delete' author.id %}">Delete author</a></li>
+            {% endif %}
+        </ul>
     {% endif %}
-    {% if not author.book_set.all and perms.catalog.delete_author %}
-      <li><a href="{% url 'author-delete' author.id %}">Delete author</a></li>
-    {% endif %}
-    </ul>
-  {% endif %}
 
 {% endblock %}
