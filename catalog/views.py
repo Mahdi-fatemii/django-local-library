@@ -1,10 +1,8 @@
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 import datetime
 from catalog.forms import RenewBookForm
 from django.urls import reverse
@@ -69,7 +67,7 @@ class AuthorDetailView(generic.DetailView):
         return render(request, 'catalog/author_detail.html', context={'author': author})
 
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing books on loan to current user."""
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_user.html'
@@ -97,6 +95,7 @@ class LoanedBooksByAllUsersListView(LoginRequiredMixin,generic.ListView):
         )
 
 
+@permission_required('catalog.change_bookinstance', login_url='')
 def renew_book_librarian(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
 
